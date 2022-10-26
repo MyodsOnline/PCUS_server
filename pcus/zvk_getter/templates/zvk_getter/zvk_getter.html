@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="archives" href="https://www.datatables.net/">
+    <link rel="me" href="mailto:diver.vlz@gmail.com">
+    <title>Заявки</title>
+    {% block css_js %}
+        <link type="text/css" rel="stylesheet" href="{% static 'zvk_getter/css/style.css' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'zvk_getter/css/datatables.css' %}">
+
+        <script type="text/javascript" src="{% static 'zvk_getter/js/jquery-3.5.1.js' %}"></script>
+        <script type="text/javascript" src="{% static 'zvk_getter/js/datatables.js' %}"></script>
+    {% endblock %}
+</head>
+<body>
+    <h2>{{ shift }}. Срез заявок на {{ date }}</h2>
+    <table id="table_id" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Объект</th>
+                <th>Оборудование</th>
+                <th>Ремонт</th>
+                <th>Состояние</th>
+                <th>Начало</th>
+                <th>Конец</th>
+                <th>Категория</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for el in data %}
+            <tr class="{% if el.repair_type == 'АР' %} red {% endif %}">
+                <td>
+                    {{ el.self_number }}<br>
+                    <p class="status {% if el.zvk_status == 'Не рассмотренная' %} green {% endif %}">
+                        {{ el.zvk_status }}
+                    </p>
+                </td>
+                <td>{{ el.subject }}</td>
+                <td>{{ el.equipment|truncatechars:40 }}
+                    {% if el.equipment_detail %}
+                        [ {{ el.equipment_detail }} ]
+                    {% endif %}
+                </td>
+                <td>{{ el.repair_type }}</td>
+                <td>{{ el.mode }}</td>
+                <td>
+                    {% if el.zvk_status == 'Не рассмотренная' %}
+                        {{ el.asked_start_date }}
+                    {% else %}
+                        {{ el.start_date }}
+                    {% endif %}
+                </td>
+                <td>{{ el.end_date }}</td>
+                <td>{{ el.zvk_type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Номер</th>
+                <th>Объект</th>
+                <th>Оборудование</th>
+                <th>Ремонт</th>
+                <th>Состояние</th>
+                <th>Начало</th>
+                <th>Конец</th>
+                <th>Категория</th>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+        $(document).ready( function () {
+            $('#table_id').DataTable();
+        } );
+    </script>
+</body>
+</html>

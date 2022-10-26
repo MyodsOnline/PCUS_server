@@ -1,0 +1,75 @@
+.row:first-child,
+.row:last-child {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 6px 10px;
+    justify-content: space-between;
+    font-size: 1.2em;
+    font-family: Copperplate;
+    box-shadow: 1px 1px 4px 1px gray;
+    border-radius: 5px;
+    margin: 20px 10px;
+    align-items: baseline;
+}
+
+.searchline:nth-child(2) {
+    width: 100%;
+    display: flex;
+}
+
+input[type=search] {
+    background-color: aqua;
+}
+
+th {
+    padding: 4px 0 8px;
+    text-align: center;
+}
+
+td {
+    padding: 7px;
+}
+
+.pagination {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin-left: 10px;
+}
+
+.disabled {
+    visibility: hidden;
+}
+
+.form-control {
+    width: 100%;
+}
+
+th {
+    background: lightgray;
+    padding: 10px 0;
+}
+
+.odd_me {
+    background-color: rgb(233, 212, 254);
+}
+
+.status {
+    margin: 0 auto;
+    font-size: .8em;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
