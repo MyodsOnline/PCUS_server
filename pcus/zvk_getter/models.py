@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+
 
 class CSV_data(models.Model):
     file_name = models.FileField(upload_to='csvs')
@@ -34,3 +36,50 @@ class ZVK_data(models.Model):
 
     def __str__(self):
         return f'{self.self_number} - {self.repair_type}'
+
+
+class Station(models.Model):
+    title = models.CharField(max_length=64, verbose_name='PPlant name')
+    star = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class Block(models.Model):
+    title = models.CharField(max_length=64, verbose_name='Block name')
+    station = models.ForeignKey(Station, on_delete=models.CASCADE, )
+    star = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.station} / {self.title}'
+
+
+class Generator(models.Model):
+    in_work = 'P'
+    emergency_repair = 'AP'
+    current_repair = 'KP'
+    capital_repair = 'KP'
+    mean_repair = 'CP'
+    forced_downtime = 'Bp'
+    main_condition_choices = {
+        (in_work, 'in_work'),
+        (emergency_repair, 'emergency_repair'),
+        (current_repair, 'current_repair'),
+        (capital_repair, 'capital_repair'),
+        (mean_repair, 'mean_repair'),
+        (forced_downtime, 'forced_downtime'),
+    }
+    title = models.CharField(max_length=64, verbose_name='Generator name')
+    block = models.ForeignKey(Block, on_delete=models.CASCADE, )
+    star = models.BooleanField(default=True)
+    main_condition = models.CharField(
+        max_length=2,
+        choices=main_condition_choices,
+        default=in_work,
+        verbose_name='repair type')
+
+
+    def __str__(self):
+        return f'{self.block} {self.title}'
+

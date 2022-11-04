@@ -1,0 +1,38 @@
+.container {
+    border: 1px solid red;
+}
+
+.new_p {
+    margin: 0;
+    font-size: .85em;
+}
+
+h4 {
+    margin-top: .5rem;
+}
+
+.our_gen_el {
+    margin-bottom: 0;
+}
+
+span {
+    display: block;
+    margin-top: -5px;
+    font-weight: 200;
+    font-size: .85em;
+}
+
+.row {
+    justify-content: space-evenly;
+}
+
+.cal-3 {
+    flex: 0 0 25%;
+    max-width: 24.4%;
+    margin: 2px 0;
+}
+
+.card-body_upd {
+    flex: 1 1 auto;
+    min-height: 1px;
+}
