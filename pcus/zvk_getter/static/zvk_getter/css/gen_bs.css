@@ -36,3 +36,11 @@ span {
     flex: 1 1 auto;
     min-height: 1px;
 }
+
+.block, .block_gen {
+    margin: 0;
+}
+
+.block_gen {
+    margin-left: 10px;
+}

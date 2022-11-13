@@ -14,8 +14,8 @@
 
 
 <div class="container">
+    <h1>Data from file</h1>
     <div class="row">
-
     {% for o in our %}
         <div class="card cal-3">
             <div class="card-header">
@@ -26,7 +26,7 @@
                 {% for key, val in el.items %}
 
                     {% if o == val.subject %}
-                        <p>{{ val.self_number }} - {{ val.equipment }}</p>
+                        <p class="block">{{ val.self_number }} - {{ val.equipment }} <b>{{ val.repair_type }}</b></p>
                         <span>{{ val.end_date }}</span>
                     {% endif %}
 
@@ -37,31 +37,47 @@
     {% endfor %}
     </div>
 
+    <h1>Data from models</h1>
     <div class="row">
         {% for station in stations %}
         <div class="card cal-3">
             <div class="card-header">
-                {{ station.title }}
+                <a href="{{ station.get_absolute_url }}">{{ station.title }}</a>
             </div>
             <div class="card-body_upd">
-            <table class="table">
-                <tbody>
-                {% for block in blocks %}
-                    {% if block.station == station %}
-
-                        {% for generator in generators %}
-                            {% if generator.block == block %}
+                <table class="table">
+                    <tbody>
+                    {% for block in blocks %}
+                        {% if block.station == station %}
                             <tr>
-                                <th scope="row">{{ block.title }}</th>
-                                <td>{{ generator.title }}</td>
-                                <td>{{ generator.main_condition }}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
+                                <td>
+                                    <p class="block">
+                                        {% if block.zvk_name != 'NU' %}
+                                            {{ block.zvk_name }}
+                                        {% else %}
+                                            {{ block.title }}
+                                        {% endif %}
+                                    </p>
 
-                    {% endif %}
-                {% endfor %}
-                </tbody>
+                                    {% for generator in generators %}
+                                        {% if generator.block == block %}
+                                            <p class="block_gen">{{ generator.title }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+
+                                <td>
+                                    <p class="block">{{ block.main_condition }}</p>
+                                    {% for generator in generators %}
+                                        {% if generator.block == block %}
+                                            <p class="block">{{ generator.main_condition }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -69,21 +85,7 @@
     </div>
 </div>
 
-        {% for o in our %}
-        <h5>{{ o }}</h5>
-            {% for el in data %}
-                {% for key, val in el.items %}
 
-                    {% if o == val.subject %}
-                        <p>{{ val.self_number }} - {{ val.equipment }}</p>
-                        <span>{{ val.end_date }}</span>
-                    {% endif %}
-
-                {% endfor %}
-            {% endfor %}
-        {% endfor %}
-
-<a href="{% url 'gen_kolaes' %}"></a>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
   </body>

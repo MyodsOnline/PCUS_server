@@ -2,6 +2,7 @@ import json
 import csv
 import os
 import datetime
+from operator import itemgetter
 import pprint
 
 from django.shortcuts import render
@@ -124,55 +125,12 @@ def get_gen_zvk(request):
     return render(request, 'zvk_getter/zvk_getter.html', context)
 
 
-def get_kolaes_zvk(request):
-    date = get_data_from_csv()
-    all_zvk = json.load(open(TARGET, encoding='utf-8'))
-    all_target_zvk = []
-    # our_gen = Generation.objects.all()
-    our_gen_zvk = get_our_all_gen()
-
-    blank = 'Кольская АЭС'
-    for el in all_zvk:
-        if el['subject'] == blank:
-            all_target_zvk.append(el)
-
-    context = {
-        'data': all_target_zvk,
-        'date': date,
-        'blank': blank,
-        # 'station_list': our_gen,
-        'our_gen_zvk': our_gen_zvk,
-    }
-
-    return render(request, 'zvk_getter/gen_bs.html', context)
-
-
-def get_laes_zvk(request):
-    date = get_data_from_csv()
-    all_zvk = json.load(open(TARGET, encoding='utf-8'))
-    all_target_zvk = []
-
-    blank = 'Киришская ГРЭС'
-    for el in all_zvk:
-        if el['subject'] == blank:
-            all_target_zvk.append(el)
-
-    context = {
-        'zvk_test_data': 'zvk_test_data',
-        'data': all_target_zvk,
-        'date': date,
-        'blank': blank,
-    }
-
-    return render(request, 'zvk_getter/gen_bs.html', context)
-
-
 def get_all_our(request):
     data = get_our_all_gen()
     our = OUR
 
-    stations = Station.objects.all()
-    blocks = Block.objects.all()
+    stations = Station.objects.all().order_by('-rating')
+    blocks = Block.objects.all().order_by('title')
     generators = Generator.objects.all()
 
     context = {
@@ -184,3 +142,22 @@ def get_all_our(request):
     }
 
     return render(request, 'zvk_getter/title.html', context)
+
+
+def get_single_station(request, station_id):
+    station = Station.objects.get(pk=station_id)
+    blank = station.title
+    all_zvk = json.load(open(TARGET, encoding='utf-8'))
+    all_target_zvk = []
+
+    for el in all_zvk:
+        if el['subject'] == blank:
+            all_target_zvk.append(el)
+
+    target_zvk = sorted(all_target_zvk, key=itemgetter('equipment'))
+
+    context = {
+        'station': blank,
+        'zvk': target_zvk,
+    }
+    return render(request, 'zvk_getter/single_title.html', context)
