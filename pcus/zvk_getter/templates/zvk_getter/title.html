@@ -67,10 +67,29 @@
                                 </td>
 
                                 <td>
-                                    <p class="block">{{ block.main_condition }}</p>
+                                    <div class="dropdown">
+                                      <button class="btn btn-light w-75 dropdown-toggle btn-sm" type="button"
+                                              data-toggle="dropdown" aria-expanded="false">
+                                        {{ block.main_condition }}
+                                      </button>
+                                      <div class="dropdown-menu">
+                                          {% for condition, explain in block.main_condition_choices %}
+                                            <a class="dropdown-item" href="#">{{ condition }}</a>
+                                          {% endfor %}
+                                      </div>
+                                    </div>
                                     {% for generator in generators %}
                                         {% if generator.block == block %}
-                                            <p class="block">{{ generator.main_condition }}</p>
+                                            <div class="dropdown">
+                                              <button class="btn btn-light w-75 dropdown-toggle btn-sm" type="button"
+                                                      data-toggle="dropdown" aria-expanded="false">
+                                                {{ generator.main_condition }}
+                                              </button>
+                                              <div class="dropdown-menu">
+                                                {% for condition, explain in generator.main_condition_choices %}
+                                                    <a class="dropdown-item" href="#">{{ condition }}</a>
+                                                {% endfor %}
+                                            </div>
                                         {% endif %}
                                     {% endfor %}
                                 </td>

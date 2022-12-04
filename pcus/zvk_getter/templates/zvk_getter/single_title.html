@@ -14,13 +14,34 @@
 
 
 <div class="container">
+{% comment %}
     <div class="row">
         {{ station }}
+        <div class="row">
         {% for el in zvk %}
-            <p class="block">{{ el.self_number }} - {{ el.equipment }} <b>{{ el.repair_type }}</b></p>
-                        <span>{{ el.end_date }}</span>
+            <div class="col">
+                <p class="block">{{ el.self_number }} - {{ el.equipment }} <b>{{ el.repair_type }}</b></p>
+                            <span>{{ el.end_date }}</span>
+            </div>
         {% endfor %}
+        </div>
     </div>
+{% endcomment %}
+
+
+    <h1 class="display-3">{{ station }}</h1>
+    <a href="{% url 'gen_test' %}">Back</a>
+    {% for el in zvk %}
+    <div class="card mb-2">
+      <h5 class="card-header">{{ el.self_number }} <b>{{ el.repair_type }}</b> {{ el.zvk_status }}</h5>
+      <div class="card-body">
+        <h5 class="card-title">{{ el.equipment }} {% if el.equipment_detail %} [[{{ el.equipment_detail }}]] {% endif %}</h5>
+        <p class="card-text">{{ el.start_date }} - {{ el.end_date }}</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    {% endfor %}
+
 </div>
 
 

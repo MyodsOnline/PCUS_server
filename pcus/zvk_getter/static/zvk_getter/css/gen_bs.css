@@ -1,5 +1,6 @@
 .container {
     border: 1px solid red;
+    font-family: monospace;
 }
 
 .new_p {
@@ -37,10 +38,21 @@ span {
     min-height: 1px;
 }
 
+.card-header a {
+    font-size: 1.18em;
+}
+
 .block, .block_gen {
     margin: 0;
+    height: 31px;
+    line-height: 250%;
+}
+
+.block {
+    font-weight: 600;
 }
 
 .block_gen {
-    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid rgb(208, 206, 206);
 }

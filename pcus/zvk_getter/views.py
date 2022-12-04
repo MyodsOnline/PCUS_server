@@ -131,7 +131,10 @@ def get_all_our(request):
 
     stations = Station.objects.all().order_by('-rating')
     blocks = Block.objects.all().order_by('title')
+    block_available_mode = Block.main_condition_choices
     generators = Generator.objects.all()
+
+    print(block_available_mode)
 
     context = {
         'data': data,
